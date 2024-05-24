@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<style>
+	pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            white-space: pre-wrap;
+			color: black;
+        }
+
+		.tableauPlaceholder {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+	padding-bottom: 75%; /* 4:3 aspect ratio */
+}
+
+.tableauViz {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+	</style>
+
+	<head>
+		<title>Great American Coffee Test</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Data Sphere</a></h1>
+					</header>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Great American Coffee Test</h2>
+								<p>A Survey took from around 4000 People who were served 4 different coffee</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">CASE</h3>
+									<p>In 2023, Cometeer partnered with YouTube coffee expert and world champion barista James Hoffmann to host The Great American Coffee Taste Test. The test were conducted blind. To conduct this first-of-its-kind preference experiment, Cometeer shipped 5,000 coffee kits across America with four different coffees. The Coffees were: <br>
+										<ul>
+											<li><b>Coffee A: light roast, washed process</b></li>
+											<li><b>Coffee B: medium roast</b></li>
+											<li><b>Coffee C: Dark roast</b></li>
+											<li><b>Coffee D: Light roast, natural process (fermented, funky/fruity)</b></li>
+										</ul>
+									</p>
+
+									<p>
+										After this test, several questions are asked:
+										<ol>
+											<li>What is the typical taster persona for the survey?</li>
+											<li>Do coffee preferences vary by age? What about by self-rated expertise?</li>
+											<li>What was the most popular coffee? How did tasters describe it?</li>
+											<li>Do the taster's stated roast level preferences match their blind test results?</li>
+										</ol>
+
+									</p>
+
+									<h3 class="major">QUESTION 1 ~ <i>What is the typical taster persona for the survey?</i></h3>
+									<p>Here, the people surveyed will be broken down by age and gender. Then their persona will be identified based on where they buy drinks, education level, brew method, age, gender, and how many cups of coffee they drink.
+										<pre>
+											<code>
+SELECT 
+gender, 
+age,
+education_level,
+cups_coffee,
+CASE 
+WHEN at_home = 'TRUE' THEN 'At Home'
+WHEN at_office = 'TRUE' THEN 'At Office'
+WHEN at_otw = 'TRUE' THEN 'On the go'
+WHEN at_cafee = 'TRUE' THEN 'At Cafe'
+WHEN none_of_these = 'TRUE' THEN 'None Of These'
+ELSE ''
+END AS Location,
+CASE 
+WHEN espresso = 'TRUE' THEN 'Espresso'
+WHEN pour_over = 'TRUE' THEN 'Pour Over'
+WHEN bean_to_cup_machine = 'TRUE' THEN 'Bean-to-Cup Machine'
+WHEN french_press = 'TRUE' THEN 'French Press'
+WHEN other_brew = 'TRUE' THEN 'Other'
+WHEN pod_capsule_machine = 'TRUE' THEN 'Pod Capsule Machine'
+WHEN cold_brew = 'TRUE' THEN 'Cold Brew'
+ELSE ''
+END AS Brew_Method
+FROM result
+ORDER BY age ASC;
+												</code>
+											</pre>
+
+									</p>
+
+									<p>
+										and here is the result
+										<div class='tableauPlaceholder' id='viz1716551140094' style='position: relative'><noscript><a href='#'><img alt='Tester Characteristic ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;7N&#47;7N4WBS5KJ&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;7N4WBS5KJ' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;7N&#47;7N4WBS5KJ&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716551140094');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='1427px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										Here, there are lots of personas that can be created from the data presented above. But here I will just make a few examples of them. To analyze the data further, I have created a filter so you can see the data in more depth <br>
+
+										<h2>Persona 1 (The Homebrew Hero)</h2>
+										<h1>Demographics</h1>
+										<ul>
+											<li>Age: 18-24 Years Old</li>
+											<li>Gender: Male</li>
+											<li>Education: Bachelor's Degree</li>
+										</ul>
+
+										<h1>Coffee Drinking Habits</h1>
+										<ul>
+											<li>Brew method: Espresso</li>
+											<li>Total Cups of Coffee: 1-2</li>
+											<li>Place drinking coffee: At Home</li>
+										</ul>
+
+										<h2>Persona 2 (The Home Brew Alchemist)</h2>
+										<h1>Demographics</h1>
+										<ul>
+											<li>Age: 25-34 Years Old</li>
+											<li>Gender: Female</li>
+											<li>Education: Bachelor's Degree</li>
+										</ul>
+
+										<h1>Coffee Drinking Habits</h1>
+										<ul>
+											<li>Brew method: Espresso & Pour Over</li>
+											<li>Total Cups of Coffee: 1-2</li>
+											<li>Place drinking coffee: At Home</li>
+										</ul>
+									</p>
+
+									<h3 class="major">QUESTION 2 ~ <i>Do coffee preferences vary by age? What about by self-rated expertise?</i></h3>
+									<p>Here we will identify whether coffee taste preferences vary based on age and whether there is a relationship between the level of coffee mastery and taste preferences 
+										<pre>
+											<code>
+select 
+age, 
+favorite_coffee_drink, 
+specify_favorite_coffee_drink, 
+coffee_preferences, 
+strong_level, 
+coffee_expertise_rate
+
+from result
+where favorite_coffee_drink != '' and coffee_expertise_rate != ''
+order by coffee_expertise_rate asc;
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1716553099704' style='position: relative'><noscript><a href='#'><img alt='Dashboard 4 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Hasil_17165510716670&#47;Dashboard4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716553099704');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										ere it can be seen that it is <b>TRUE</b> that coffee preferences will vary greatly if we look at the age of the people surveyed. Apart from that, their level of understanding of coffee also influences their coffee preferences. For example, I took data from ages 45 - 54 years. At their age, "Fruity" and "Chocolatey" coffee dominates, but if we look again based on their level of understanding of coffee, "Fruity" only applies to people who have a coffee understanding level of 7-8, while for those who only have a coffee understanding level of 1-2 actually like coffee that has a "Sweet" taste.
+									</p>
+
+									<h3 class="major">QUESTION 3 ~ <i>What was the most popular coffee? How did tasters describe it?</i></h3>
+									<p>We will answer this question by taking data on which coffee is most voted for by the people surveyed and how they rate which coffee is their most favorite.
+										<pre>
+											<code>
+with coffee_B as
+(
+SELECT 
+count(favorite_overall_coffee) as total_coffee_B
+FROM
+result
+where favorite_overall_coffee = 'Coffee B'
+), 
+coffee_A as
+(
+SELECT 
+count(favorite_overall_coffee) as total_coffee_A
+FROM
+result
+where favorite_overall_coffee = 'Coffee A'
+),
+coffee_C as
+(
+SELECT 
+count(favorite_overall_coffee) as total_coffee_C
+FROM
+result
+where favorite_overall_coffee = 'Coffee C'
+),
+coffee_D as
+(
+SELECT 
+count(favorite_overall_coffee) as total_coffee_D
+FROM
+result
+where favorite_overall_coffee = 'Coffee D'
+)
+
+SELECT 
+(SELECT total_coffee_A FROM coffee_A) AS total_coffee_A,
+(SELECT total_coffee_B FROM coffee_B) AS total_coffee_B,
+(SELECT total_coffee_C FROM coffee_C) AS total_coffee_C,
+(SELECT total_coffee_D FROM coffee_D) AS total_coffee_D;	
+											</code>
+										</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1716554365375' style='position: relative'><noscript><a href='#'><img alt='Dashboard 5 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard5&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Hasil_17165510716670&#47;Dashboard5' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard5&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716554365375');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									   </p>
+									
+									<p>
+										As can be seen from the data,D Coffee is the favorite coffee in this survey. But how do these respondents actually rate D coffee? let's look at the data through the following syntax
+										<pre>
+											<code>
+SELECT
+ROUND(AVG(D_bitterness),2) as avg_bitterness_score_D,
+ROUND(AVG(D_acidity),2) as avg_acidity_score_D,
+ROUND(AVG(D_personal_preference),2) as avg_personal_preference_score_D
+FROM result
+											</code>
+										</pre>	
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1716554623339' style='position: relative'><noscript><a href='#'><img alt='Dashboard 6 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard6&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Hasil_17165510716670&#47;Dashboard6' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard6&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716554623339');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									   </p>
+
+									<p>
+										Above is presented the respondents' average assessment of D coffee as measured by its acidity, personal preference and bitterness. From ratings 1 - 4, we can say that D coffee has received a pretty good rating among respondents. Even in terms of personal preference, the respondents for D coffee said that they highly recommend D coffee considering that the personal preference score reached 3.16 out of 4. This indicates that respondents tend to like coffee that is lightly roasted and processed naturally
+									</p>
+
+
+									<h3 class="major">QUESTION 4 ~ <i>Do the taster's stated roast level preferences match their blind test results?</i></h3>
+									<p>To answer the question above, we need to see the match between the roast level of the coffee provided in this survey and the roast level of the respondents
+										<pre>
+											<code>
+SELECT
+roast_level, coffee_nice_A_C, coffee_nice_A_n_D, favorite_overall_coffee
+FROM result
+WHERE roast_level != '' and coffee_nice_A_C != '' and coffee_nice_A_n_D != ''
+ORDER BY roast_level asc;
+
+											</code>
+										</pre>
+										</p>
+
+										<p>
+											Here is the result
+											<div class='tableauPlaceholder' id='viz1716555081649' style='position: relative'><noscript><a href='#'><img alt='Dashboard 7 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard7&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Hasil_17165510716670&#47;Dashboard7' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hasil_17165510716670&#47;Dashboard7&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716555081649');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+										   </p>
+										
+										
+										<p>
+											It can be seen that in Coffee A, B, and D, there is a match where respondents who like light level roasts choose coffee A and D while respondents who like medium level roasts choose coffee B. However, there is a slight uniqueness where in coffee C there are actually many respondents with medium level roasts. who choose that coffee compared to dark roast	
+										</p>
+									
+									
+										<h3 class="major">Conclusion</h3>
+									<p>From the analysis above, we can conclude that: <br>
+										<ol>
+											<li><b>Typical Taster Persona</b></li>
+											<ul>
+												<li>The survey reveals diverse taster personas, including the "Homebrew Hero" and the "Home Brew Alchemist," categorized by age, gender, education, brew method, and consumption habits.</li>
+												<li>Understanding these personas provides insights into consumer preferences and behaviors, aiding targeted marketing and product development strategies.</li>
+											</ul>
+
+											<li><b>Coffee Preferences by Age and Expertise</b></li>
+											<ul>
+												<li>Coffee preferences notably vary by age, with nuanced differences based on self-rated expertise.</li>
+											</ul>
+
+											<li><b>Most Popular Coffee and its description</b></li>
+											<ul>
+												<li>Coffee D emerges as the most favored among respondents, characterized by its acidity, personal preference score, and low bitterness.</li>
+												<li>The preference for lightly roasted, naturally processed coffee indicates a growing trend towards nuanced flavors and specialty brews.</li>
+											</ul>
+
+											<li><b>Match of Stated Roast Level Preferences</b></li>
+											<ul>
+												<li>The blind test results largely align with respondents' stated roast level preferences, with Coffee A, B, and D reflecting the preferred roast levels.</li>
+												<li>A slight deviation is observed in Coffee C, suggesting a potential opportunity to explore medium roast options further.</li>
+											</ul>
+										</ol>
+
+										In summary, understanding consumer personas, age-related preferences, and the popularity of specific coffee attributes can guide marketing efforts and product offerings, ensuring alignment with evolving consumer tastes and preferences in the coffee industry.
+
+									</p>
+				
+
+									<h1 class="CHOT" style="text-align: center; border-top: solid 5px rgba(255, 255, 255, 0.125);"> <br>Check out my other interesting projects !!!</h1>
+
+									<section class="features">
+										<article>
+											<a href="CRM_sales.html" class="image"><img src="images/sales.jpg" alt="" /></a>
+											<h3 class="major">CRM Sales Opportunities</h3>
+											<p>Analysing sales opportunities from CRM</p>
+											<a href="CRM_sales.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/Flood.jpg" alt="" /></a>
+											<h3 class="major">Flood in Rheinland-Pfalz</h3>
+											<p>Analyzing floods in the Rheinland Pfalz from time to time</p>
+											<a href="#" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/Coming soon.jpg" alt="" /></a>
+											<h3 class="major">Coming Soon</h3>
+											<p>Will be out soon !!!</p>
+										</article>
+									</section>
+									<ul class="actions">
+									</ul>
+								</div>
+							</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+				<section id="footer">
+					<div class="inner">
+						<ul class="contact">
+							<li class="icon solid fa-envelope" ><a href="mailto:fahmiaffif5@email.com" target="_blank">fahmiaffif5@gmail.com</a></li>
+							<li class="icon brands fa-linkedin"><a href="https://www.linkedin.com/in/fahmi-affif-7643b2184/?locale=de_DE" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-facebook-f"><a href="https://www.facebook.com/fahmi.affif" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-instagram" ><a href="https://www.instagram.com/mpip_z/" target="_blank">mpip_z</a></li>
+						</ul>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

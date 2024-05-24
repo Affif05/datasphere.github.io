@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<style>
+	pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            white-space: pre-wrap;
+			color: black;
+        }
+
+		.tableauPlaceholder {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+	padding-bottom: 75%; /* 4:3 aspect ratio */
+}
+
+.tableauViz {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+	</style>
+
+	<head>
+		<title>CRM Sales Opportunities</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Data Sphere</a></h1>
+					</header>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>CRM Sales Opportunities</h2>
+								<p>B2B sales pipeline data from a fictitious company that sells computer hardware</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">CASE</h3>
+									<p>After they made massive sales in 2016 - 2017, they wanted to analyze their sales results with the following questions:
+										<ol>
+											<li>How is each sales team performing compared to the rest?</li>
+											<li>Are any sales agents lagging behind?</li>
+											<li>Is there any quarter-over-quarter Trend?</li>
+											<li>Which Product was saled the most? Do any products have better win rates? Which product contribute the most at these sales?</li>
+										</ol>
+									</p>
+
+									<p>To solve the problem above, <b>4 datasets created in Microsoft Excel</b> will be used to provide concrete answers. Here <b>MySQL</b> and <b>Tableau</b> will also be used for data search and data visualization.</p>
+
+									<h3 class="major">QUESTION 1 ~ <i>How is each sales team performing compared to the rest?</i></h3>
+									<p>Sales performance data will be sought which can be seen from the number of successful sales, lost sales and the total value of sales achieved
+										<pre>
+											<code>
+select engage_date,
+sales_agent,
+count(case when deal_stage = 'Won' then 1 end) as total_won, 
+count(case when deal_stage = 'Lost' then 1 end) as total_lost,
+sum(close_value) as total_close_value
+from sales_pipeline
+group by engage_date,sales_agent
+order by  sales_agent, total_close_value desc;
+												</code>
+											</pre>
+
+									</p>
+
+									<p>
+										and here is the result
+										<div class='tableauPlaceholder' id='viz1716545600026' style='position: relative'><noscript><a href='#'><img alt='Dashboard 2 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard2&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='HASILLLLL_17164877398850&#47;Dashboard2' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard2&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716545600026');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										Here we can see that <b>Darcell Schlecht</b> is the best sales agent by having the highest number of successful sales and the highest income, while <b>Violet Mclelland</b> is the sales agent with a poorer performance than the others. Even though she has a number of successful sales that is quite competitive with others, her total sales are the least when compared to other sales agent
+									</p>
+
+									<h3 class="major">QUESTION 2 ~ <i>Are any sales agents lagging behind?</i></h3>
+									<p>We will identify whether there are sales that are still pending between 2016 - 2017. Here we will use data where the sales status is still at the "Engaging" level which indicates the sales process is still ongoing / pending 
+										<pre>
+											<code>
+select * from sales_pipeline
+where deal_stage = 'Engaging';
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1716489380757' style='position: relative'><noscript><a href='#'><img alt='Dashboard 3 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard3&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='HASILLLLL_17164877398850&#47;Dashboard3' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard3&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716489380757');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										Here we can see that there are still a lot of pending sales. And if we total all the pending sales and the estimated the total value of sales that could be achieved, we will get the following data
+
+										<pre>
+											<code>
+select sp.product, 
+sum(case when sp.deal_stage = 'Engaging' then 1 else 0 end) as total_engaging,
+sum(case when sp.deal_stage = 'Engaging' then pr.sales_price else 0 end) as total_estimated_value
+from sales_pipeline sp join products pr on sp.product = pr.product
+group by sp.product;
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1716490543890' style='position: relative'><noscript><a href='#'><img alt='Dashboard 4 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='HASILLLLL_17164877398850&#47;Dashboard4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716490543890');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										As we can see, all the products on offer are still pending sales. This is very unfortunate because if we look at the table, these products would generate extraordinarily large income
+									</p>
+
+									<h3 class="major">QUESTION 3 ~ <i>Is there any quarter-over-quarter Trend?</i></h3>
+									<p>here we will identify whether there is a trend forming in each quarter from 2016 - 2017 and also see what the sales trend for each product is per quarter by considering the total products sold, the total products that failed to sell, the total sales that are still lagging and the total value of sales achieved
+										<pre>
+											<code>
+select product,
+engage_date,
+SUM(CASE WHEN deal_stage = 'Won' THEN 1 else 0 END) AS total_winning_sales,
+SUM(CASE WHEN deal_stage = 'Lost' THEN 1 else 0 END) AS total_losing_sales,
+SUM(CASE WHEN deal_stage = 'Engaging' THEN 1 else 0 END) AS total_lagging_sales,
+SUM(close_value) AS total_close_value
+from sales_pipeline
+where YEAR(engage_date) is not null
+group by engage_date, product;
+											</code>
+
+										</pre>
+									</p>
+
+									<p>
+									 Here is the result
+									 <div class='tableauPlaceholder' id='viz1716545353229' style='position: relative'><noscript><a href='#'><img alt='Dashboard 5 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard5&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='HASILLLLL_17164877398850&#47;Dashboard5' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;Dashboard5&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716545353229');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+									</p>
+
+									<p>
+										Overall, <b>the product sales trend per quarter 2016-2017 shows a positive trend</b>. Total Close Value experienced an upward trend in both years, although in 2017 there was a slight decline in quarter 3. Total Losing Sales experienced a downward trend in both years, indicating that the company is increasingly successful in achieving its sales targets. It is recommended to maintain the strategy that has been used and always pay attention to market trends and the behavior of similar competitors in order to get maximum profit
+									</p>
+
+									<h3 class="major">QUESTION 4 ~ <i>Which Product was saled the most? Do any products have better win rates? Which product contribute the most at these sales?</i></h3>
+									<p>in the analysis for this question, we will compare the performance of each product that has been sold. Using the syntax below, we can solve the questions presented above
+										<pre>
+											<code>
+select 
+product,
+SUM(CASE WHEN deal_stage = 'Won' THEN 1 else 0 END) AS total_winning_sales
+from sales_pipeline
+group by product
+order by total_winning_sales desc;
+											</code>
+										</pre>
+									</p>
+
+									<p>
+										Then in the Tableau application, we will use the <b><i>calculation</i></b> feature to find the percentage contribution from each product and also find the percentage win rate for each product in this sale.
+										<div class='tableauPlaceholder' id='viz1716547720752' style='position: relative'><noscript><a href='#'><img alt='Product Performance Comparison ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;ProductPerformanceComparison&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='HASILLLLL_17164877398850&#47;ProductPerformanceComparison' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HA&#47;HASILLLLL_17164877398850&#47;ProductPerformanceComparison&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1716547720752');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										From the data presented, it can be seen that the <b>GTX Basic</b> product is the "Best of the Best", because it is the product with the most sales, is a big contributor to sales and has a very high win rate so it is very popular with customers. On the other hand, the <b>GTK 500</b> product is a product that needs attention here considering that its performance during this sale was not good enough compared to the other 6 products. Meanwhile, <b>MG Advanced</b> Products are the most stable products in sales this time
+									</p>
+
+									<h3 class="major">Conclusion</h3>
+									<p>From the analysis above, we can conclude that: <br>
+										<b>1. Sales Team Performance:</b>
+Darcell Schlecht emerges as the top-performing sales agent with the highest number of successful sales and total sales revenue.
+Violet Mclelland lags behind in terms of total sales revenue despite having a competitive number of successful sales. This indicates a potential area for improvement or further investigation into factors affecting her total sales performance. <br>
+<b>2. Pending Sales:</b>
+A significant number of sales are still pending between 2016-2017, indicating potential missed opportunities for revenue generation.
+Despite the pending status, the estimated total value of these pending sales suggests the potential for substantial revenue if successfully closed. <br>
+<b>3. Quarter-over-Quarter Trend:</b>
+Overall, there is a positive trend in product sales per quarter from 2016-2017.
+Total close value exhibits an upward trend, with a slight decline in quarter 3 of 2017. However, total losing sales show a consistent downward trend, indicating improved sales performance over time.
+To sustain this positive trend, it is recommended to maintain current strategies while closely monitoring market trends and competitors' behavior. <br>
+<b>4. Product Analysis:</b>
+The GTX Basic product stands out as the top-performing product, leading in sales volume, contribution to total sales revenue, and boasting a high win rate, indicating strong customer demand.
+The GTK 500 product requires attention due to its underperformance compared to other products. Further analysis is needed to understand the reasons behind its lower sales performance.
+MG Advanced Products demonstrate stability in sales performance throughout the analyzed period.
+In conclusion, while the sales data from 2016-2017 highlights areas of success, such as Darcell Schlecht's performance and the positive quarter-over-quarter sales trend, it also identifies areas for improvement, such as addressing pending sales and optimizing the performance of underperforming products like GTK 500. Continuous analysis and adjustment of sales strategies based on insights from data will be crucial for maximizing sales performance and achieving sustainable growth in the future. <br>
+									</p>
+
+									<h1 class="CHOT" style="text-align: center; border-top: solid 5px rgba(255, 255, 255, 0.125);"> <br>Check out my other interesting projects !!!</h1>
+
+									<section class="features">
+										<article>
+											<a href="coffee_test.html" class="image"><img src="images/Coffee.jpg" alt="" /></a>
+											<h3 class="major">Great American Coffee Test</h3>
+											<p>Around 4000 People with variable background were served 4 different Coffee</p>
+											<a href="coffee_test.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/Flood.jpg" alt="" /></a>
+											<h3 class="major">Flood in Rheinland-Pfalz</h3>
+											<p>Analyzing floods in the Rheinland Pfalz from time to time</p>
+											<a href="#" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/Coming soon.jpg" alt="" /></a>
+											<h3 class="major">Coming Soon</h3>
+											<p>Will be out soon !!!</p>
+										</article>
+									</section>
+									<ul class="actions">
+									</ul>
+								</div>
+							</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+				<section id="footer">
+					<div class="inner">
+						<ul class="contact">
+							<li class="icon solid fa-envelope" ><a href="mailto:fahmiaffif5@email.com" target="_blank">fahmiaffif5@gmail.com</a></li>
+							<li class="icon brands fa-linkedin"><a href="https://www.linkedin.com/in/fahmi-affif-7643b2184/?locale=de_DE" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-facebook-f"><a href="https://www.facebook.com/fahmi.affif" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-instagram" ><a href="https://www.instagram.com/mpip_z/" target="_blank">mpip_z</a></li>
+						</ul>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
