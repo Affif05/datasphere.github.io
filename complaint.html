@@ -1,0 +1,464 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<style>
+	pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            white-space: pre-wrap;
+			color: black;
+        }
+
+		.tableauPlaceholder {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+	padding-bottom: 75%; /* 4:3 aspect ratio */
+}
+
+.tableauViz {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+	</style>
+
+	<head>
+		<title>Financial Consumer Complaints</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Data Sphere</a></h1>
+					</header>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Financial Consumer Complaints</h2>
+								<p>Consumer complaints on financial products & services for Bank of America from 2017 to 2023</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">CASE</h3>
+									<p>In the 2017-2023 period there were many complaints from customers regarding Bank of America's financial products and services covering many aspects. From this case we will analyze and look for answers to the following questions:
+										<ol>
+											<li>Do consumer complaints show any seasonal patterns?</li>
+											<li>Which products present the most complaints? What are its most common issues?</li>
+											<li>How are complaints typically resolved?</li>
+											<li>What can be learned from the complaints with untimely responses?</li>
+										</ol>
+									</p>
+
+									<p>To solve the problem, <b>Dataset created in Microsoft Excel from <a href="https://mavenanalytics.io/data-playground" target="_blank">Maven Analytics</a></b> will be used to provide concrete answers. Here <b>Pandas</b> will also be used for data search and data visualization.</p>
+
+									<!-- Installing necessary Resources -->
+									<h3 class="major">INSTALLING NECESSARY RECOURSES</i></h3>
+									<p>
+										Let's get started. The first thing we need to do is we have to install the resources we need such as <b>Pandas for analyzing data</b> & <b>MatPlotLib and Seaborn for data visualization</b>
+										<pre>
+											<code>
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+												</code>
+											</pre>
+									</p>
+
+									<!-- Exporting Datasets -->
+									<h3 class="major">EXPORTING DATASET</i></h3>
+									<p>
+										after that we have to download the dataset from <b><a href="https://mavenanalytics.io/data-playground" target="_blank">Maven Analytics</a></b> and export it to Jupyter Notebook
+
+										<pre>
+											<code>
+file = pd.read_csv(Data/complaints.csv')
+												</code>
+											</pre>
+									</p>
+
+									<!-- Data Cleaning -->
+									<h3 class="major">DATA CLEANING</i></h3>
+									<p>
+										Then we have to clean the data. Here i have dropped duplicates and delete every data whose complaints does not have sub-product in it (sub-product is NULL), because every product should have sub-products
+										<pre>
+											<code>
+file = file.drop_duplicates() <span style="color: red;"># dropping duplicates</span>
+file = file.dropna(subset=['Sub-product']) <span style="color: red;"># deleting data without sub-product</span>
+												</code>
+											</pre>
+									</p>	
+
+									</p>
+
+
+									<!-- STANDARDIZING DATA -->
+									<h3 class="major">STANDARDIZING DATA</i></h3>
+									<p>
+										Its aims are to make the data uniform and prevent us from errors that might occur due to the diversity of the data. For example, I have set the date data to the same format
+										<pre>
+											<code>
+file['Date submitted'] = pd.to_datetime(file['Date submitted'])
+file['Date received'] = pd.to_datetime(file['Date received'])
+												</code>
+											</pre>
+
+									</p>
+
+
+									<!-- Question 1 -->
+									<h3 class="major">QUESTION 1 ~ <i>Do consumer complaints show any seasonal patterns?</i></h3>
+									<p>Here we need to look at the number of complaints each year and search the average in order to analyze this question
+										<pre>
+											<code>
+file['Year'] = file['Date submitted'].dt.year <span style="color: red;"># Extracting Years from column 'Date submitted'</span>
+yearly_complaints = file.groupby('Year')['Complaint ID'].count() <span style="color: red;"># Count the number of complaints each year</span>
+avg_complaints = yearly_complaints.mean() <span style="color: red;"># Searching average</span>
+
+<span style="color: green;"># Visualizing data</span>
+plt.figure(figsize=(15, 8))
+yearly_complaints.plot(marker='o')
+plt.title('Seasonal Complaint Trends')
+plt.xlabel('Year')
+plt.ylabel('Number of Complaints')
+plt.grid(True)
+plt.show()
+												</code>
+											</pre>
+
+									</p>
+											<img src="images/3. Financial Customer Complaints/Seasonal complaint Trends.png" alt="" /></a>
+									</p>
+
+									<p>
+										The pattern we can see here is that the highest number of complaints is in 2022, the lowest in 2017 and average on 8929 complaints each year. Furthermore, There is a <b>consistent increase from 2019-2022</b>. This indicates that there is a serious problem on the company side. Most likely it lies in the service and products offered. It is true that in 2023 the number of complaints have been decreasing, but compared to previous years, the number of complaints is still relatively high. Even so, this indicates that there have been improvements to the existing system, perhaps starting from the service system, products or policies. Consumer behavior may also be very influential in reducing the number of complaints. It should be noted that the strategy currently used by the company should be maintained and always reviewed so that the number of complaints continues to decrease and customers are always satisfied with the products offered.
+									</p>
+
+									<p>
+										Then we also need to look at complaint trends based on the products offered by the company to see what products need to be reviewed.
+										<pre>
+											<code>
+result = file.groupby([file['Date submitted'].dt.year, 'Product']).size() <span style="color: red;"># Calculate the number of complaints for each year and product combination</span>
+result = result.reset_index(name='Total Complaints') <span style="color: red;"># Reset the index to be able to use its columns in the plot</span>
+
+<span style="color: green;"># Visualizing data</span>
+plt.figure(figsize=(18, 13))
+for product, data in result.groupby('Product'):
+plt.plot(data['Date submitted'], data['Total Complaints'], marker='o', label=product)
+
+plt.title('Seasonal Complaint Trends by Product')
+plt.xlabel('Year')
+plt.ylabel('Total Complaints')
+plt.legend()
+plt.grid(True)
+plt.show()
+												</code>
+											</pre>		
+									</p>
+												<img src="images/3. Financial Customer Complaints/Product Seasonal complaint Trends.png" alt="" /></a>
+
+									<p>
+										From the graph above, it can be seen that the number of complaints per product each year was quite stable and even tends to decrease in 2018-2019, then increased rapidly in 2020-2022, except for "Mortgage" and "Debt Collection" products. And in 2023, all products will show a significant decline. 2 products that need special attention in this case are "Checking or savings account" and "Credit Card or Prepaid Card". It can be seen that there are a lot of customers who use this product, so product quality and service speed need to be improved so that customer comfort is guaranteed.
+									</p>
+
+									<!-- Question 2 -->
+									<h3 class="major">QUESTION 2 ~ <i>Which products present the most complaints? What are its most common issues?</i></h3>
+									<p>Here we have to calculate the total complaints from each product and look for the problems that most frequently arise from each product. Here I will write the syntax to find the product with the highest total complaints and the problems that occur most frequently in each product.
+										<pre>
+											<code>
+<span style="color: green;"># Product with most complaints</span>
+product_complaints = file.groupby('Product').size() <span style="color: red;"># Count the number of complaints for each product</span> 
+
+<span style="color: green;"># Visualizing data</span>
+plt.figure(figsize=(22, 8))
+
+sorted_products = product_complaints.sort_values(ascending=False)
+
+bars = plt.bar(range(len(sorted_products)), sorted_products.values, color=plt.cm.get_cmap('Pastel1')(range(len(sorted_products))))
+
+plt.title('Total Complaints by Product')
+plt.xlabel('Product')
+plt.ylabel('Total Complaints')
+plt.xticks([])
+plt.grid(False)
+
+for bar, value in zip(bars, sorted_products.values):
+    plt.text(bar.get_x() + bar.get_width()/2, value + 0.1, str(value), ha='center', va='bottom')
+
+plt.legend(bars, sorted_products.index, title='Product')
+
+plt.show()
+												</code>
+											</pre>
+
+											<img src="images/3. Financial Customer Complaints/Total complaints by product.png" alt="" width="1270" height="600" /></a>
+									</p>
+
+									<p>
+										Here you can see that the product with the highest complaints is "Checking or savings account" while the lowest is "Student loan". For products with the highest complaints, companies need to review the product starting from the services offered, programs and services.
+
+
+										<p>
+											Then we will see what problems customers often complain about with a product	
+											<pre>
+												<code>
+<span style="color: green;"># Most common issues</span>
+product_issue_counts = file.groupby(['Product', 'Issue']).size().reset_index(name='Count') <span style="color: red;"># Calculate the number of complaints for each combination of product and problem</span> 
+top_issue_per_product = product_issue_counts.sort_values(['Product', 'Count'], ascending=[True, False])
+top_issue_per_product = top_issue_per_product.groupby('Product').head(1).reset_index(drop=True)
+
+<span style="color: green;"># Visualizing data</span>
+plt.figure(figsize=(14, 8))
+
+unique_combinations = top_issue_per_product[['Product', 'Issue']].apply(lambda x: f"{x['Product']} <=> {x['Issue']}", axis=1)
+colors = plt.cm.tab20(range(len(unique_products)))
+legend_handles = []
+
+for i, product in enumerate(unique_products):
+    product_data = top_issue_per_product[top_issue_per_product['Product'] == product]
+    bars = plt.bar(product_data['Issue'], product_data['Count'], color=colors[i])
+    legend_handles.append(bars[0])
+
+plt.title('Most Common Issue for Each Product')
+plt.xlabel('Count of Issues')
+plt.ylabel('Number of Complaints')
+plt.xticks([])
+
+plt.legend(legend_handles, unique_combinations, title='Product <=> Most Issues')
+
+for index, value in enumerate(top_issue_per_product['Count']):
+	plt.text(index, value, str(value), ha='center', va='bottom')
+
+plt.tight_layout()
+plt.show()
+													</code>
+												</pre>
+
+												<img src="images/3. Financial Customer Complaints/Most issues each product.png" alt=""></a>
+										</p>
+
+										<p>
+											You can see each product with its problems. It is best to immediately find a solution that can reduce the number of complaints and improve quality. An example that can be taken is the product "Checking or savings account", a possible solution that could be offered to customers is to make instructions for managing the account properly or if the company uses a website or application that is related to this problem, then this website / application should have an easier interface.
+										</p>
+
+										<!-- Question 3 -->
+									<h3 class="major">QUESTION 3 ~ <i>How are complaints typically resolved?</i></h3>
+									<p>Here we will identify how problems are solved and how often these solutions are used to solve a problem
+										<pre>
+											<code>
+file['Monetary Relief'] = (file['Company response to consumer'] == 'Closed with monetary relief').astype(int)
+file['Explanation'] = (file['Company response to consumer'] == 'Closed with explanation').astype(int)
+file['Non-Monetary Relief'] = (file['Company response to consumer'] == 'Closed with non-monetary relief').astype(int)
+
+# Calculate the amount for each condition
+result = pd.DataFrame({
+'Monetary Relief': file['Monetary Relief'].sum(),
+'Explanation': file['Explanation'].sum(),
+'Non-Monetary Relief': file['Non-Monetary Relief'].sum()
+}, index=[0])
+
+dfmi = pd.DataFrame(result.values.reshape(1, -1), columns=pd.MultiIndex.from_product([['Monetary Relief', 'Explanation', 'Non-Monetary Relief']]))
+
+<span style="color: green;"># Visualizing data</span>
+if 'Total' in dfmi.columns:
+    ax = dfmi.drop(columns=['Total']).plot(kind='bar', figsize=(10, 6))
+else:
+    ax = dfmi.plot(kind='bar', figsize=(10, 6))
+
+for p in ax.patches:
+    ax.annotate(str(p.get_height()), (p.get_x() + p.get_width() / 2., p.get_height()),
+                ha='center', va='center', xytext=(0, 5), textcoords='offset points')
+
+plt.title('Complaint Resolution Types')
+plt.xlabel('Category')
+plt.ylabel('Number of Complaints')
+plt.xticks(rotation=0)  # Rotasi label sumbu x menjadi horizontal
+plt.legend(title='Resolution Type')
+plt.show()
+												
+											</code>
+										</pre>
+										<img src="images/3. Financial Customer Complaints/Complaint Resolution Types.png" alt="" width="1200" height="700"></a>
+									</p>
+
+									<p>
+										<b>"Words trump all"</b>. that's the principle companies use to "appease" customers. With good explanations, all problems complained by customers can be resolved well.
+									</p>
+
+									<h3 class="major">QUESTION 4 ~ <i>What can be learned from the complaints with untimely responses?</i></h3>
+									<p>To answer this we need to look at complaints that are not responded to in a timely manner by also looking at aspects of the product, sub-product, problem and frequency of complaints and how long it takes for complaints to be responded to. Here I will display the <b>top 5 from all categories</b>
+										<pre>
+											<code>
+<span style="color: green;"># Filter untimely complaints</span>
+untimely_responses = file[file['Timely response?'] == 'No']
+
+<span style="color: green;"># Descriptive analysis</span>
+product_distribution = untimely_responses['Product'].value_counts()
+sub_product_distribution = untimely_responses['Sub-product'].value_counts().head()
+issue_distribution = untimely_responses['Issue'].value_counts().head()
+state_distribution = untimely_responses['State'].value_counts()
+
+<span style="color: green;"># Visualization with annotations</span>
+def add_annotations(barplot):
+	for i in barplot.patches:
+	barplot.annotate(format(i.get_width(), '.0f'),
+	(i.get_width(), i.get_y() + i.get_height() / 2),
+	ha='left', va='center',
+	xytext=(5, 0),
+	textcoords='offset points')
+
+<span style="color: green;"># Distribution of Untimely Responses by Product</span>
+plt.figure(figsize=(10, 6))
+barplot = sns.countplot(data=untimely_responses, y='Product', order=product_distribution.index)
+plt.title('Distribution of Untimely Responses by Product')
+add_annotations(barplot)
+plt.show()
+
+<span style="color: green;"># Distribution of Untimely Responses by Sub-Product</span>
+plt.figure(figsize=(10, 6))
+barplot = sns.countplot(data=untimely_responses, y='Sub-product', order=sub_product_distribution.index)
+plt.title('Distribution of Untimely Responses by Sub-Product')
+add_annotations(barplot)
+plt.show()
+
+<span style="color: green;"># Distribution of Untimely Responses by Issue</span>
+plt.figure(figsize=(10, 6))
+barplot = sns.countplot(data=untimely_responses, y='Issue', order=issue_distribution.index)
+plt.title('Distribution of Untimely Responses by Issue')
+add_annotations(barplot)
+plt.show()
+
+<span style="color: green;"># Time Analysis</span>
+untimely_responses['Date submitted'] = pd.to_datetime(untimely_responses['Date submitted'])
+untimely_responses['Date received'] = pd.to_datetime(untimely_responses['Date received'])
+untimely_responses['response_time'] = (untimely_responses['Date received'] - untimely_responses['Date submitted']).dt.days
+		
+<span style="color: green;"># Visualization with annotations for response time histogram</span>
+plt.figure(figsize=(10, 6))
+histplot = sns.histplot(untimely_responses['response_time'], bins=30, kde=False)
+plt.title('Distribution of Response Time for Untimely Responses')
+plt.xlabel('Response Time (days)')
+plt.ylabel('Complain Frequency')
+
+plt.show()
+											</code>
+										</pre>
+										<p><b>Product Analysis</b></p>
+										<img src="images/3. Financial Customer Complaints/Distribution product.png" alt=""></a>
+										<p><b>Sub Product Analysis</b></p>
+										<img src="images/3. Financial Customer Complaints/Distribution sub product.png" alt=""></a>
+										<p><b>Issues Analysis</b></p>
+										<img src="images/3. Financial Customer Complaints/Distribution issue.png" alt=""></a>
+										<p><b>Complain Frequency Analysis</b></p>
+										<img src="images/3. Financial Customer Complaints/Distribution responses.png" alt=""></a>
+									</p>
+
+									<p>
+										From all the data above, it can be said that customers need a user guide or interface that makes it easier for them. Apart from that, the system and human resources owned by the company need to be improved because there are still many errors which can be seen from the issue "Incorrect information on your report" which has quite a high value. Apart from that, efforts are made to stabilize the response time at 1-2 days because according to the data above, there are still complaints that are even answered more than 30 days later.
+									</p>
+
+									<h3 class="major">Conclusion</h3>
+									<p>From the analysis above, we can conclude that: <br>
+										<b>1. Seasonal Patterns:</b>
+										<ul>
+											<li>The year 2022 witnessed the highest number of complaints, indicating significant issues in our products and services.</li>
+											<li>Complaints have shown a consistent increase from 2019 to 2022, suggesting persistent challenges that need urgent resolution.</li>
+											<li>While 2023 saw a decline in complaints, the numbers remain relatively high compared to previous years, signaling ongoing improvements but highlighting areas that still require enhancement.</li>
+											<li>Continued review and enhancement of our strategies are essential to sustain this positive trend and ensure customer satisfaction.</li>
+										</ul>
+<b>2. Most complaint Products & most common issues:</b>
+<ul>
+	<li>"Checking or savings account" and "Credit Card or Prepaid Card" are identified as products with notable complaint volumes.</li>
+	<li>These products require focused attention on improving service quality and operational efficiency to enhance customer experience and satisfaction.</li>
+	<li>Solutions should prioritize clear communication, streamlined processes, and user-friendly interfaces to address these concerns effectively.</li>
+	<li>Implementing customer-centric improvements, such as intuitive account management guides or enhanced digital platforms, can mitigate these issues.</li>
+</ul>
+
+<b>3. Resolution of complaints:</b>
+<ul>
+	<li>Problems should also be solved with real action and not limited to explanations</li>
+</ul>
+
+<b>4. What to do with untimely responses:</b>
+<ul>
+	<li>Improving the quality of services and products is very important</li>
+	<li>Training and empowering customer service team to provide comprehensive explanations and swift resolutions are crucial steps forward.</li>
+	<li>Addressing delays in response times, particularly those exceeding 30 days, requires operational refinements and resource allocation adjustments.</li>
+	<li>Establishing a standard response time of 1-2 days should be a priority to meet customer expectations consistently.</li>
+</ul>
+									</p>
+
+									<h1 class="CHOT" style="text-align: center; border-top: solid 5px rgba(255, 255, 255, 0.125);"> <br>Check out my other interesting projects !!!</h1>
+
+									<section class="features">
+										<article>
+											<a href="coffee_test.html" class="image"><img src="images/Coffee.jpg" alt="" /></a>
+											<h3 class="major">Great American Coffee Test</h3>
+											<p>Around 4000 People with variable background were served 4 different Coffee</p>
+											<a href="coffee_test.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="CRM_sales.html" class="image"><img src="images/sales.jpg" alt="" /></a>
+											<h3 class="major">CRM Sales Opportunities</h3>
+											<p>Analysing sales opportunities from CRM</p>
+											<a href="CRM_sales.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/Coming soon.jpg" alt="" /></a>
+											<h3 class="major">Coming Soon</h3>
+											<p>Will be out soon !!!</p>
+										</article>
+									</section>
+									<ul class="actions">
+									</ul>
+								</div>
+							</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+				<section id="footer">
+					<div class="inner">
+						<ul class="contact">
+							<li class="icon solid fa-envelope" ><a href="mailto:fahmiaffif5@email.com" target="_blank">fahmiaffif5@gmail.com</a></li>
+							<li class="icon brands fa-linkedin"><a href="https://www.linkedin.com/in/fahmi-affif-7643b2184/?locale=de_DE" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-facebook-f"><a href="https://www.facebook.com/fahmi.affif" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-instagram" ><a href="https://www.instagram.com/mpip_z/" target="_blank">mpip_z</a></li>
+						</ul>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
