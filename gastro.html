@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<style>
+	pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            white-space: pre-wrap;
+			color: black;
+        }
+
+		.tableauPlaceholder {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+	padding-bottom: 75%; /* 4:3 aspect ratio */
+}
+
+.tableauViz {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+	</style>
+
+	<head>
+		<title>Youth Catering Training Interest in Germany</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Data Sphere</a></h1>
+					</header>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Youth Catering Training Interest in Germany</h2>
+								<p>development of German young people's interest in the field of gastronomy from 2020 - 2023</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">CASE</h3>
+									<p>The field of gastronomy (restaurants, hotels and the like) is one of the important things in every country, including Germany. For people who want to learn more, in Germany there is also a special program, namely "Ausbildung". However, unfortunately, there is a lot of news that states that in Germany there is a huge shortage of workers in the gastronomy sector, which has been discussed in various well-known media. Actually, how interested are young people in this field?</p>
+									<p>To solve the problem above, <b>3 datasets created in Microsoft Excel</b> taken from various websites will be used to provide concrete answers. Here <b>MySQL</b> and <b>Tableau</b> will also be used for exploratory data analysis and data visualization.</p>
+
+									<h3 class="major">Trend Analysis</i></h3>
+									<p>In this section, we will see how was the development of the number of young applicants in the last 5 years. If it decreases, we will see what influences that.
+										<pre>
+											<code>
+SELECT `year`, job_title, SUM(total) AS total_applicants
+FROM azubi_applicants
+GROUP BY `year`, job_title
+ORDER BY `year`, job_title;
+												</code>
+											</pre>
+
+									</p>
+
+									<p>
+										and here is the result
+										<div class='tableauPlaceholder' id='viz1720111217173' style='position: relative'><noscript><a href='#'><img alt='Number of Applicants ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;numberofapplicants&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;numberofapplicants' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;numberofapplicants&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720111217173');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										in the field of gastronomy, 5 positions for training (ausbildung) are offered. We can see that from all these positions there was a decline in 2020 and tends to increase slowly starting from 2021 to 2023. And in the period from 2021 to 2022 the development of the number of applicants is quite stagnant in several positions.
+									</p>
+
+									<p>
+										Here we will also see what age range young people are interested in ausbildung in the field of gastronomy and the gender that dominates in this field of gastronomy over the last 5 years.
+
+										<pre>
+											<code>
+<span style="color: green;"># Age</span>
+select  `year`, age, SUM(total) as total from azubi_applicants
+group by `year`, age;
+
+<span style="color: green;"># Gender</span>
+select `year`, gender, SUM(total) AS total_applicants
+from azubi_applicants
+group by `year`, gender
+order by `year`;
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										and here is the result
+										<div class='tableauPlaceholder' id='viz1720112136715' style='position: relative'><noscript><a href='#'><img alt='Number of Applicants based on Age ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Age&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;Age' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Age&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720112136715');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);</script> <br>
+										<div class='tableauPlaceholder' id='viz1720112178402' style='position: relative'><noscript><a href='#'><img alt='Number of Applicants based on Gender ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Gender&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;Gender' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Gender&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720112178402');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										From the data above it can be seen that ages 16 - 18 dominate and male applicants have a greater number than female applicants.
+									</p>
+
+
+									<p>
+										Even so, we have seen from the trend over the past 5 years that the development of young people's interests tends to stagnate and has even experienced a decline. What actually influences this?
+
+										<pre>
+											<code>
+SELECT * FROM reason
+limit 5;
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										and here is the result
+										<div class='tableauPlaceholder' id='viz1720112449246' style='position: relative'><noscript><a href='#'><img alt='Reasons for the Decline in the Number of Applicants ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;DeclineReason&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;DeclineReason' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;DeclineReason&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720112449246');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										These are top 5 reasons why this field is not young people's thing. The solutions that can be offered for each of these problems are:
+										<ol>
+											<li><b>Low Pay</b>: Increase wages and incentives, Offer performance-based bonuses</li>
+											<li><b>Bad Working Conditions</b>: Enhance work environment and safety, enforce labor regulations, Provide training programs</li>
+											<li><b>Lack of Recognition</b>: employee recognition programs, personal development plans, feedback mechanisms</li>
+											<li><b>Lack of Career Prospects</b>: career path development, offer further education and training, mentorship programs</li>
+											<li><b>Lack of Support from Employers</b>: regular communication, wellness programs, inclusive policies</li>
+										</ol>
+									</p>
+
+
+									<h3 class="major">Major-wise Interest</h3>
+									<p>In this section we will see which position has the highest and lowest interest
+										<pre>
+											<code>
+SELECT job_title, SUM(total) AS total_applicants
+from azubi_applicants
+GROUP BY job_title
+ORDER BY total_applicants desc;
+												</code>
+											</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1720113437283' style='position: relative'><noscript><a href='#'><img alt='Majors Interest ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;MajorsInterest&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;MajorsInterest' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;MajorsInterest&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720113437283');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										we can see here that the job of chef is the job most in demand by young people who want to gain knowledge in the field of gastronomy. Followed by a restaurant specialist in 2nd position and a system restaurateur in the last position.
+									</p>
+
+									<h3 class="major">Applicant-Company Comparison</h3>
+									<p>Here we will identify the comparison of the number of applicants with the number of positions available. With the dataset provided, we use Tableau to create a line table to make comparisons.
+										<div class='tableauPlaceholder' id='viz1720113864328' style='position: relative'><noscript><a href='#'><img alt='Applicant-Company Comparison ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Applicant-CompanyComparison&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;Applicant-CompanyComparison' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;Applicant-CompanyComparison&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720113864328');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										overall, <b>the number of applicants is still higher than the number of positions offered</b>. Even so, there are still many cases of labor shortages in this field. This could be due to prospective applicants not meeting the company's criteria, the requirements being quite burdensome or it could refer to the data "top 5 Reasons for the Decline in the Number of Applicants" above.
+									</p>
+
+									<h3 class="major">Peak and Trough Years</h3>
+									<p>Here we will identify in which year were there the most applicants and the fewest applicants
+										<pre>
+											<code>
+SELECT `year`, SUM(total) AS total_applicants
+from azubi_applicants
+GROUP BY `year`
+ORDER BY total_applicants desc;
+											</code>
+										</pre>
+									</p>
+
+									<p>
+										Here is the result
+										<div class='tableauPlaceholder' id='viz1720114444361' style='position: relative'><noscript><a href='#'><img alt='Peak and Trough Years ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;PeakandTroughYears&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Gastro_17201111724470&#47;PeakandTroughYears' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ga&#47;Gastro_17201111724470&#47;PeakandTroughYears&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de-DE' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1720114444361');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+									</p>
+
+									<p>
+										From the data presented, 2023 was the best year where it had the highest number of applicants, even higher than 2019, but 2020 was quite an unpleasant year considering that the number of applicants has fallen by quite a significant amount.
+									</p>
+
+									<h3 class="major">Conclusion</h3>
+									<p>The analysis of the gastronomy sector in Germany, particularly focusing on young people's interest in Ausbildung programs, reveals several critical insights and trends: <br>
+										<b>1. Trend Analysis:</b>
+										Over the past five years, there has been a notable fluctuation in the number of young applicants for gastronomy training positions. The sharp decline in 2020, likely influenced by the COVID-19 pandemic, was followed by a gradual recovery from 2021 to 2023. However, the recovery has been somewhat stagnant, particularly between 2021 and 2022. This suggests a need for strategic interventions to sustain and boost interest among young people. <br>
+
+										<b>2. Demographics:</b>
+										The majority of applicants are aged 16-18, with male applicants outnumbering female applicants. This demographic trend indicates a younger, predominantly male interest in the field, which could inform targeted recruitment and retention strategies. <br>
+
+										<b>3. Influencing Factors:</b>
+										The declining interest in gastronomy training can be attributed to several key issues:
+										<ul>
+											<li><b>Low Pay</b>: Increasing wages and offering performance-based incentives could make the sector more attractive.</li>
+											<li><b>Bad Working Conditions</b>: Improving work environments, enforcing labor regulations, and providing safety training are crucial steps.</li>
+											<li><b>Lack of Recognition</b>: Implementing employee recognition programs, personal development plans, and feedback mechanisms can enhance job satisfaction.</li>
+											<li><b>Lack of Career Prospects</b>: Clearly defined career paths, further education opportunities, and mentorship programs are essential to show long-term growth potential. </li>
+											<li><b>Lack of Support from Employers</b>: Regular communication, wellness programs, and inclusive workplace policies can foster a supportive work environment.</li>
+										</ul>
+
+<b>4. Major-Wise Interest:</b>
+Among the various positions, the role of a chef is the most sought after, followed by restaurant specialists, with the system restaurateur being the least popular. This highlights specific areas where interest is higher, which could be leveraged for targeted training and recruitment campaigns. <br>
+
+<b>5. Applicant-Company Comparison:</b>
+Despite the number of applicants generally exceeding the number of available positions, there remains a significant labor shortage. This discrepancy might be due to stringent requirements, unmet criteria by applicants, or the broader issues identified earlier. Addressing these barriers could help in bridging the gap.
+
+<b>6. Peak and Trough Years:</b>
+The year 2023 saw the highest number of applicants, surpassing even pre-pandemic levels of 2019, while 2020 experienced a significant drop. This indicates a recovery trend, albeit slow, suggesting that with the right measures, the sector can regain and even surpass its former appeal. <br>
+<br>
+In conclusion, to address the labor shortage and enhance the attractiveness of the gastronomy sector for young people in Germany, it is essential to implement comprehensive strategies that address pay, working conditions, recognition, career prospects, and employer support. By doing so, the sector can build a more sustainable and appealing career path for the younger generation.
+									</p>
+
+									<h1 class="CHOT" style="text-align: center; border-top: solid 5px rgba(255, 255, 255, 0.125);"> <br>Check out my other interesting projects !!!</h1>
+
+									<section class="features">
+										<article>
+											<a href="coffee_test.html" class="image"><img src="images/Coffee.jpg" alt="" /></a>
+											<h3 class="major">Great American Coffee Test</h3>
+											<p>Around 4000 People with variable background were served 4 different Coffee</p>
+											<a href="coffee_test.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="CRM_sales.html" class="image"><img src="images/sales.jpg" alt="" /></a>
+											<h3 class="major">CRM Sales Opportunities</h3>
+											<p>Analyze CRM used for sales opportunities</p>
+											<a href="CRM_sales.html" class="special">Learn more</a>
+										</article>
+										<article>
+											<a href="complaint.html" class="image"><img src="images/Complaint.jpg" alt="" /></a>
+											<h3 class="major">Financial Consumer Complaints</h3>
+											<p>Analysing Consumer complaints on financial products & services for Bank of America from 2017 to 2023</p>
+											<a href="complaint.html" class="special">Learn more</a>
+										</article>
+									</section>
+									<ul class="actions">
+									</ul>
+								</div>
+							</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+				<section id="footer">
+					<div class="inner">
+						<ul class="contact">
+							<li class="icon solid fa-envelope" ><a href="mailto:fahmiaffif5@email.com" target="_blank">fahmiaffif5@gmail.com</a></li>
+							<li class="icon brands fa-linkedin"><a href="https://www.linkedin.com/in/fahmi-affif-7643b2184/?locale=de_DE" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-facebook-f"><a href="https://www.facebook.com/fahmi.affif" target="_blank">Fahmi Affif</a></li>
+							<li class="icon brands fa-instagram" ><a href="https://www.instagram.com/mpip_z/" target="_blank">mpip_z</a></li>
+						</ul>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
